@@ -2,19 +2,30 @@
 
 namespace App;
 
+use App\Component\Router\RouterInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestInterface;
+
 class Application
 {
-    protected $pipeline;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
+    /**
+     * @var RouterInterface
+     */
     protected $router;
 
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
-
+        $this->container = $container;
+        $this->router = $this->container->get(RouterInterface::class);
     }
 
-    public function init()
+    public function handle(RequestInterface $request)
     {
-
+        
     }
 }
