@@ -4,11 +4,19 @@
   "keywords": [],
   "license": "MIT",
   "type": "project",
-  "require:": {
+  "authors": [
+    {
+      "name": "Ioannis Bekiaris",
+      "email": "info@ibekiaris.me",
+      "homepage": "http://ibekiaris.me"
+    }
+  ],
+  "require": {
     "php": ">=7.0.0",
     "nikic/fast-route": "*",
     "monolog/monolog": "*",
-    "vlucas/phpdotenv": "*"
+    "vlucas/phpdotenv": "*",
+    "zendframework/zend-servicemanager": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0"
