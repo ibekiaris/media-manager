@@ -1,38 +1,25 @@
 web:
   build: ./docker/web
-  container_name: "api_web"
+  container_name: "media_web"
   ports:
     - "8080:80"
   volumes:
     - ./:/code
     - ./docker/web/api.conf:/etc/nginx/conf.d/site.conf
-    - ./log/nginx:/var/log/nginx
+    - ./docker/log/nginx:/var/log/nginx
   links:
     - app
-    - db
 app:
   build: ./docker/app
-  container_name: "api_app"
+  container_name: "media_app"
   environment:
     XDEBUG_CONFIG: remote_host=${REMOTE_HOST_DBG}
-    PHP_IDE_CONFIG: "serverName=HT Server"
+    PHP_IDE_CONFIG: "serverName=Media Server"
   volumes:
     - ./:/code
-  links:
-    - db
 composer:
   build: ./docker/composer
-  container_name: "api_composer"
+  container_name: "media_composer"
   command: composer update
   volumes_from:
   - app
-db:
-  image: mysql:5.7
-  container_name: "api_mysql"
-  environment:
-    - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-    - MYSQL_DATABASE=${DB_DATABASE}
-  volumes:
-  - ./docker/data:/var/lib/mysql
-  ports:
-    - "3306:3306"
