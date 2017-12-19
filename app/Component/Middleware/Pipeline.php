@@ -23,10 +23,10 @@ class Pipeline implements PipelineInterface
         return $this;
     }
 
-    public function next(RequestInterface $request, ResponseInterface $response)
+    public function next(RequestInterface $request, ResponseInterface $response = null)
     {
-        if (!$this->pipeline->count()) {
-            return null;
+        if (! $this->pipeline->count()) {
+            return $response;
         }
 
         $middleware = $this->pipeline->dequeue();

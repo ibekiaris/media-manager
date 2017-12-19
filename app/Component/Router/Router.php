@@ -18,7 +18,7 @@ class Router implements RouterInterface
     /**
      * @var Dispatcher
      */
-    protected static $dispatcher;
+    protected $dispatcher;
 
     public function __construct()
     {
@@ -27,14 +27,14 @@ class Router implements RouterInterface
 
     public function getDispatcher(): Dispatcher
     {
-        if (! static::$dispatcher) {
-            static::$dispatcher = new Dispatcher($this->routeCollector->getData());
+        if (! $this->dispatcher) {
+            $this->dispatcher = new Dispatcher($this->routeCollector->getData());
         }
 
-        return static::$dispatcher;
+        return $this->dispatcher;
     }
 
-    public function get($path, $handler)
+    public function get(string $path, callable $handler)
     {
         $this->routeCollector->get($path, $handler);
     }
@@ -47,7 +47,7 @@ class Router implements RouterInterface
         return $this->dispatch($method, $uri);
     }
 
-    public function dispatch($method, $uri): callable
+    public function dispatch(string $method, string $uri): callable
     {
         $path = parse_url($uri, PHP_URL_PATH);
         $routeInfo = $this->getDispatcher()->dispatch($method, $path);

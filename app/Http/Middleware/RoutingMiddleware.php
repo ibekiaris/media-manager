@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Component\Middleware\Pipeline;
 use App\Component\Router\RouterInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +21,8 @@ class RoutingMiddleware
 
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $delegate = null)
     {
-        // TODO: Return new pipeline for route
-        return $this->router->dispatchRequest($request)($request);
+        $pipeline = new Pipeline();
+        // TODO: Implement routes middlewares
+        return $pipeline->pipe($this->router->dispatchRequest($request))->next($request, $response);
     }
 }

@@ -52,11 +52,6 @@ class Application
         return $this;
     }
 
-    public function addRoute(): self
-    {
-        $this->router->addRoute('GET', '/test', 'handler');
-    }
-
     public function getRouter(): RouterInterface
     {
         return $this->router;

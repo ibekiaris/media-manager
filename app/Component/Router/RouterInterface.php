@@ -8,7 +8,7 @@ interface RouterInterface
 {
     public function dispatchRequest(RequestInterface $request);
 
-    public function dispatch($method, $uri);
+    public function dispatch(string $method, string $uri);
 
-    public function get($path, $handler);
+    public function get(string $path, callable $handler);
 }
