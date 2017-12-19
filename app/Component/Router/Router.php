@@ -34,7 +34,7 @@ class Router implements RouterInterface
         return $this->dispatcher;
     }
 
-    public function get(string $path, callable $handler)
+    public function get(string $path, $handler)
     {
         $this->routeCollector->get($path, $handler);
     }
@@ -47,7 +47,7 @@ class Router implements RouterInterface
         return $this->dispatch($method, $uri);
     }
 
-    public function dispatch(string $method, string $uri): callable
+    public function dispatch(string $method, string $uri)
     {
         $path = parse_url($uri, PHP_URL_PATH);
         $routeInfo = $this->getDispatcher()->dispatch($method, $path);

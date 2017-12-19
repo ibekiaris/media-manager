@@ -10,6 +10,6 @@ class RoutingMiddlewareFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new RoutingMiddleware($container->get(RouterInterface::class));
+        return new RoutingMiddleware($container, $container->get(RouterInterface::class));
     }
 }

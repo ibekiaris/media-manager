@@ -10,5 +10,5 @@ interface RouterInterface
 
     public function dispatch(string $method, string $uri);
 
-    public function get(string $path, callable $handler);
+    public function get(string $path, $handler);
 }

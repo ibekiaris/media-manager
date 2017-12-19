@@ -5,11 +5,12 @@ namespace App;
 use App\Component\Middleware\Pipeline;
 use App\Component\Middleware\PipelineInterface;
 use App\Component\Router\RouterInterface;
+use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 
-class Application
+class Application implements PipelineInterface
 {
     /**
      * @var ContainerInterface
@@ -40,9 +41,12 @@ class Application
         $this->initRoutes();
     }
 
-    public function handle(RequestInterface $request)
+    public function next(RequestInterface $request, ResponseInterface $response = null)
     {
-        $response = new Response();
+        if (!$response) {
+            $response = new Response();
+        }
+
         return $this->pipeline->next($request, $response);
     }
 

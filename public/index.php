@@ -9,4 +9,4 @@ $container->setService('config', $applicationConfig);
 
 $application = new \App\Application($container);
 
-$application->handle(\Zend\Diactoros\ServerRequestFactory::fromGlobals());
+$application->next(\Zend\Diactoros\ServerRequestFactory::fromGlobals());

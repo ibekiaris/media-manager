@@ -8,6 +8,6 @@ class IndexAction
 {
     public function __invoke(RequestInterface $request)
     {
-
+        echo 'Welcome to media manager';
     }
 }
