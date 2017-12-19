@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Component\Middleware\Pipeline;
+use App\Component\Middleware\PipelineInterface;
 use App\Component\Router\RouterInterface;
+use Zend\Diactoros\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -14,18 +17,68 @@ class Application
     protected $container;
 
     /**
+     * @var PipelineInterface
+     */
+    protected $pipeline;
+
+    /**
      * @var RouterInterface
      */
     protected $router;
 
+    /**
+     * @var array
+     */
+    protected $config;
+
     public function __construct(ContainerInterface $container)
     {
-        $this->container = $container;
-        $this->router = $this->container->get(RouterInterface::class);
+        $this->init($container);
+
+        $this->initMiddlewares();
+
+        $this->initRoutes();
     }
 
     public function handle(RequestInterface $request)
     {
-        
+        $response = new Response();
+        return $this->pipeline->next($request, $response);
+    }
+
+    public function pipe($middleware): self
+    {
+        $this->pipeline->pipe($this->container->get($middleware));
+        return $this;
+    }
+
+    public function addRoute(): self
+    {
+        $this->router->addRoute('GET', '/test', 'handler');
+    }
+
+    public function getRouter(): RouterInterface
+    {
+        return $this->router;
+    }
+
+    protected function init(ContainerInterface $container)
+    {
+        $this->container = $container;
+        $this->config = $container->get('config');
+        $this->pipeline = new Pipeline();
+        $this->router = $container->get(RouterInterface::class);
+    }
+
+    protected function initMiddlewares()
+    {
+        $this->config['middlewares']($this);
+        return $this;
+    }
+
+    protected function initRoutes()
+    {
+        $this->config['routes']($this);
+        return $this;
     }
 }
